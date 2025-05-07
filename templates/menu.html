@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+
+{% block title %}Menu{% endblock %}
+
+{% block content %}
+    <h2>Our Menu</h2>
+
+    <form method="get">
+        <p><label><input type="checkbox" name="vegetarian" value="true" {% if filters.vegetarian %}checked{% endif %}> Vegetarian</label></p>
+        <p><label><input type="checkbox" name="vegan" value="true" {% if filters.vegan %}checked{% endif %}> Vegan</label></p>
+        <p><label><input type="checkbox" name="gluten_free" value="true" {% if filters.gluten_free %}checked{% endif %}> Gluten-Free</label></p>
+        <p><label><input type="checkbox" name="nut_free" value="true" {% if filters.nut_free %}checked{% endif %}> Nut-Free</label></p>
+        <button type="submit">Apply Filters</button>
+    </form>
+
+    {% for category in categories %}
+        <h3>{{ category.name }}</h3>
+
+        {% for item in filtered_items[category.id] %}
+            <p> {{ item.name }} <br>{{ item.description }}<br>${{ '%.2f'|format(item.price) }}</p>
+        {% else %}
+            <p>No items in this category.</p>
+        {% endfor %}
+    {% endfor %}
+{% endblock %}
