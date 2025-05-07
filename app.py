@@ -4,15 +4,15 @@
 # Created: April 2025
 
 from flask import Flask
-from flask_sqlalchemy import SQLAlchemy
 from flask_wtf.csrf import CSRFProtect
+from extensions import db  # Import db from extensions instead
 
 # Create and configure the app
 app = Flask(__name__)
 app.config.from_object('config')
 
-# Initialize database
-db = SQLAlchemy(app)
+# Initialize database with app
+db.init_app(app)  # Changed from db = SQLAlchemy(app)
 
 # Set up CSRF protection for forms
 csrf = CSRFProtect(app)

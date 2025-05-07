@@ -3,7 +3,7 @@
 # Author: Zakaria
 # Created: April 2025
 
-from app import db
+from extensions import db  # Import from extensions instead of app
 from datetime import datetime
 
 class Category(db.Model):

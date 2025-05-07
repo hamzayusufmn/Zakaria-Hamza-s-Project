@@ -9,7 +9,7 @@ from models.menu import MenuItem, Category
 from models.feedback import Feedback
 from models.order import Order
 from datetime import datetime
-from app import db
+from extensions import db  # Import from extensions instead of app
 from functools import wraps
 
 # Create blueprint
