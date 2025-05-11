@@ -18,7 +18,7 @@ Built with Flask, HTML/CSS, and SQLite. (4/21/2025)
    git clone https://github.com/hamzayusufmn/Zakaria-Hamza-s-Project.git
    cd Zakaria-Hamza-s-Project
 
-2. create a virtual enivomrnetn and add this to terminal
+2. create a virtual environment  and add this to terminal
 
 python -m venv venv
 source venv/bin/activate  or   # on Windows: venv\Scripts\activate
