@@ -86,3 +86,27 @@ body {
   }
   
   
+.hero {
+ 
+  background-image: url("../menu/restaurant.jpg");
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+
+  
+  padding: 5rem 1rem;
+  color: white;
+  text-align: center;
+}
+
+.hero .btn-brand {
+  
+  background-color: #c77dff;
+  border: none;
+  padding: 0.75rem 1.5rem;
+  font-size: 1.1rem;
+}
+
+
+
+  

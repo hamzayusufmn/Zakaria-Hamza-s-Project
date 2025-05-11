@@ -1,0 +1,50 @@
+{% extends 'base.html' %}
+{% block title %}Your Cart | Mediterranean Delights{% endblock %}
+
+{% block content %}
+  <h1 class="text-center mb-4">Your Cart</h1>
+
+  {% if cart_items %}
+    <ul class="list-group mb-3">
+      {% for entry in cart_items %}
+        <li class="list-group-item d-flex justify-content-between align-items-center">
+          <div>{{ entry.item.name }}  {{ entry.quantity }}</div>
+          <div class="d-flex align-items-center">
+            <span>${{ '%.2f'|format(entry.subtotal) }}</span>
+            <form
+              method="POST"
+              action="{{ url_for('main.remove_from_cart', menu_item_id=entry.item.id) }}"
+              class="ms-3"
+            >
+              <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+              <button type="submit" class="btn btn-outline-danger btn-sm">
+                Remove
+              </button>
+            </form>
+          </div>
+        </li>
+      {% endfor %}
+      <li class="list-group-item d-flex justify-content-between">
+        <strong>Total</strong>
+        <strong>${{ '%.2f'|format(total) }}</strong>
+      </li>
+    </ul>
+
+    <div class="d-flex justify-content-between">
+      <a href="{{ url_for('order.order_page') }}" class="btn btn-brand">
+        Proceed to Checkout
+      </a>
+      <form method="POST" action="{{ url_for('main.clear_cart') }}">
+        <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+        <button type="submit" class="btn btn-outline-danger">
+          Remove All
+        </button>
+      </form>
+    </div>
+  {% else %}
+    <p class="text-center">
+      Your cart is empty. 
+      <a href="{{ url_for('menu.menu_display') }}">Browse our menu</a>.
+    </p>
+  {% endif %}
+{% endblock %}

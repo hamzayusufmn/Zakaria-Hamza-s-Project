@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+{% block title %}Gallery – Mediterranean Delights{% endblock %}
+{% block content %}
+<div class="container py-5">
+  <h1 class="text-center mb-4">Gallery</h1>
+  <div class="row g-4">
+    {% for img, cap in [
+      ('appetizer1.jpg','Stuffed Grape Leaves'),
+      ('appetizer2.jpg','Falafel with Tahini'),
+      ('appetizer3.jpg','Hummus & Pita'),
+      ('main1.jpg','Chicken Shawarma'),
+      ('main2.jpg','Lamb Gyro'),
+      ('main3.jpg','Grilled Seafood'),
+      ('drink1.jpg','Mint Lemonade'),
+      ('drink2.jpg','Orange Juice'),
+      ('dessert.jpg','Baklava')
+    ] %}
+    <div class="col-md-4 text-center">
+      <img src="{{ url_for('static', filename='menu/' ~ img) }}" class="img-fluid rounded" alt="{{ cap }}">
+      <p class="mt-2">{{ cap }}</p>
+    </div>
+    {% endfor %}
+  </div>
+</div>
+{% endblock %}

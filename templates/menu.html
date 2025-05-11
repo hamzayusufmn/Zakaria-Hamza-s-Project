@@ -1,25 +1,66 @@
 {% extends 'base.html' %}
-
-{% block title %}Menu{% endblock %}
+{% block title %}Menu – Mediterranean Delights{% endblock %}
 
 {% block content %}
-    <h2>Our Menu</h2>
-
-    <form method="get">
-        <p><label><input type="checkbox" name="vegetarian" value="true" {% if filters.vegetarian %}checked{% endif %}> Vegetarian</label></p>
-        <p><label><input type="checkbox" name="vegan" value="true" {% if filters.vegan %}checked{% endif %}> Vegan</label></p>
-        <p><label><input type="checkbox" name="gluten_free" value="true" {% if filters.gluten_free %}checked{% endif %}> Gluten-Free</label></p>
-        <p><label><input type="checkbox" name="nut_free" value="true" {% if filters.nut_free %}checked{% endif %}> Nut-Free</label></p>
-        <button type="submit">Apply Filters</button>
-    </form>
-
-    {% for category in categories %}
-        <h3>{{ category.name }}</h3>
-
-        {% for item in filtered_items[category.id] %}
-            <p> {{ item.name }} <br>{{ item.description }}<br>${{ '%.2f'|format(item.price) }}</p>
-        {% else %}
-            <p>No items in this category.</p>
-        {% endfor %}
+<div class="container py-5">
+  <!-- Dietary Filters -->
+  <form method="GET" action="{{ url_for('menu.menu_display') }}" class="row g-2 mb-4 justify-content-center">
+    {% for key,label in [
+      ('vegetarian','Vegetarian'),
+      ('vegan','Vegan'),
+      ('gluten_free','Gluten-Free'),
+      ('nut_free','Nut-Free')
+    ] %}
+      <div class="col-auto form-check">
+        <input class="form-check-input"
+               type="checkbox"
+               name="{{ key }}"
+               id="{{ key }}"
+               value="true"
+               {% if filters[key] %}checked{% endif %}>
+        <label class="form-check-label" for="{{ key }}">{{ label }}</label>
+      </div>
     {% endfor %}
+    <div class="col-auto">
+      <button class="btn btn-outline-secondary" type="submit">Apply Filters</button>
+    </div>
+  </form>
+
+  <!-- Menu Categories & Items -->
+  {% for cat in categories %}
+    <h2 class="mt-5 text-brand">{{ cat.name }}</h2>
+    <div class="row row-cols-1 row-cols-md-3 g-4">
+      {% set items = filtered_items[cat.id] %}
+      {% if items %}
+        {% for item in items %}
+          <div class="col">
+            <div class="card h-100 shadow-sm">
+              <!-- Correct path into static/images/menu/ -->
+              <img src="{{ url_for('static', filename='menu/' ~ item.image_path) }}"
+                   class="card-img-top"
+                   alt="{{ item.name }}">
+              <div class="card-body text-center">
+                <h5 class="card-title">{{ item.name }}</h5>
+                <p class="fw-bold">${{ '%.2f'|format(item.price) }}</p>
+              </div>
+              <div class="card-footer bg-white text-center">
+                <form method="POST"
+                      action="{{ url_for('main.add_to_cart', menu_item_id=item.id) }}">
+                  <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+                  <button class="btn btn-brand w-100">Add to Cart</button>
+                </form>
+              </div>
+            </div>
+          </div>
+        {% endfor %}
+      {% else %}
+        <div class="col">
+          <p class="text-muted">No items in this category.</p>
+        </div>
+      {% endif %}
+    </div>
+  {% endfor %}
+</div>
 {% endblock %}
+<!-- used rows to show our menu items in an easy row by row split by their groups. used crsf hidden to ensure no messy things were added
+ to our code. i had an orignal issue where menu kept showing weird adresses but this fix shows just menu price and picutre of food  -->

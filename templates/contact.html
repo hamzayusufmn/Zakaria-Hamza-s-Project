@@ -1,0 +1,37 @@
+{% extends 'base.html' %}
+{% block title %}Contact – Mediterranean Delights{% endblock %}
+
+{% block content %}
+  <h1 class="text-center mb-4">Contact & Hours</h1>
+
+  <div class="row justify-content-center mb-5">
+    <div class="col-md-6 text-center">
+      <h5>Visit Us</h5>
+      <p>123 Main Street, Minneapolis, MN</p>
+      <p>(612) 555-1234</p>
+    </div>
+  </div>
+
+  <div class="row justify-content-center">
+    <div class="col-md-8">
+      <h5 class="text-center mb-3">Hours of Operation</h5>
+      <table class="table table-bordered text-center">
+        <thead class="table-light">
+          <tr><th>Day</th><th>Hours</th></tr>
+        </thead>
+        <tbody>
+          {% for h in hours %}
+            <tr>
+              <td>{{ h.day_of_week }}</td>
+              <td>
+                {% if h.is_closed %}Closed
+                {% else %}{{ h.open_time }} – {{ h.close_time }}{% endif %}
+              </td>
+            </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+{% endblock %}
+<!--  while we did include contact page in our home page this looked like a nice additon with contact info --> 
