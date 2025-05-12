@@ -73,7 +73,7 @@ def remove_from_cart(menu_item_id):
     flash('Removed from cart.', 'info')
     return redirect(request.referrer or url_for('main.view_cart'))
 
-@main_bp.route('/cart/clear')
+@main_bp.route('/cart/clear', methods=['POST']) # hy- this wasnt working when i was testing remove all from cart. forgot to add this, mustve been triggered by a get request.
 def clear_cart():
     session.pop('cart', None)
     flash('Cart cleared.', 'warning')
