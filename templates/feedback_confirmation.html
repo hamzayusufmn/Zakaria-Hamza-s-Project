@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+{% block title %}Feedback Submitted - Mediterranean Delights{% endblock %}
+
+{% block content %}
+<div class="text-center my-5">
+  <div class="alert alert-success mb-4">
+     <h2 class="text-success mb-3">Thank You for Your Feedback!</h2>
+    <p class="lead">We appreciate you taking the time to share your thoughts with us.</p>
+  </div>
+  
+  <div class="rating-display my-4">
+    <div class="d-flex justify-content-center">
+    </div>
+    <p class="text-muted mt-2">Your feedback helps us improve our service</p>
+  </div>
+  
+  <div class="mt-5">
+    <a href="{{ url_for('main.home') }}" class="btn btn-brand">Return to Home</a>
+    <a href="{{ url_for('menu.menu_display') }}" class="btn btn-outline-secondary ms-3">View Our Menu</a>
+  </div>
+</div>
+{% endblock %}

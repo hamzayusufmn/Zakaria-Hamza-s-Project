@@ -1,11 +1,15 @@
 {% extends 'base.html' %}
-{% block title %}Feedback  Mediterranean Delights{% endblock %}
+{% block title %}Feedback - Mediterranean Delights{% endblock %}
 
 {% block content %}
   <h1 class="text-center mb-4">Send Us Your Feedback</h1>
 
-  <form method="POST" action="{{ url_for('main.feedback') }}" class="w-50 mx-auto">
+  <form action="{{ url_for('main.feedback') }}" method="POST">
     <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+    
+    {% if order_id %}
+    <input type="hidden" name="order_id" value="{{ order_id }}">
+    {% endif %}
 
     <div class="mb-3">
       <input name="name"
@@ -29,7 +33,7 @@
     </div>
     <div class="mb-3">
       <select name="rating"
-              class="form-select"
+              class="form-select rating-select"
               required>
         <option value="">Rating</option>
         {% for i in range(5,0,-1) %}
@@ -38,9 +42,11 @@
       </select>
     </div>
     <div class="mb-3">
+      <label for="visited_on">Date of Visit</label>
       <input name="visited_on"
              type="date"
              class="form-control"
+             id="visited_on"
              required>
     </div>
     <div class="mb-3">
@@ -53,4 +59,29 @@
 
     <button type="submit" class="btn btn-brand w-100">Submit Feedback</button>
   </form>
+
+  <script>
+    // Add visual feedback when rating is selected
+    document.addEventListener('DOMContentLoaded', function() {
+      const ratingSelect = document.querySelector('.rating-select');
+      
+      ratingSelect.addEventListener('change', function() {
+        // Change the select's background color based on rating
+        const rating = parseInt(this.value);
+        if (rating > 0) {
+          const colors = ['', '#ff4d4d', '#ff9966', '#ffdb4d', '#99cc33', '#4CAF50'];
+          this.style.backgroundColor = colors[rating];
+          this.style.color = rating > 3 ? '#fff' : '#000';
+        } else {
+          this.style.backgroundColor = '';
+          this.style.color = '';
+        }
+      });
+      
+      // Set today's date as default for the date input
+      const today = new Date();
+      const formattedDate = today.toISOString().split('T')[0];
+      document.getElementById('visited_on').value = formattedDate;
+    });
+  </script>
 {% endblock %}
