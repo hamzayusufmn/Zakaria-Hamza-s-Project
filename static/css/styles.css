@@ -9,7 +9,7 @@ body {
   
 
   nav {
-    background-color: navy;
+    background-color: wheat;
     padding: 1em;
   }
   
@@ -32,7 +32,7 @@ body {
   
 
   footer {
-    background-color: midnightblue;
+    background-color: white;
     color: white;
     text-align: center;
     padding: 1em;
@@ -51,7 +51,7 @@ body {
   
 
   button {
-    background-color: teal;
+    background-color: orange;
     color: white;
     border: none;
     padding: 0.6em 1.2em;
@@ -61,11 +61,11 @@ body {
   }
   
   button:hover {
-    background-color: darkcyan;
+    background-color: gray;
   }
   .menu-filters {
     margin-bottom: 2em;
-    background-color: #f0f0f0;
+    background-color: white;
     padding: 1em;
     border-radius: 8px;
     display: flex;
@@ -77,7 +77,7 @@ body {
     font-size: 14px;
   }
   .menu-filters button {
-    background-color: teal;
+    background-color: orange;
     color: white;
     border: none;
     padding: 0.5em 1em;
@@ -99,13 +99,6 @@ body {
   text-align: center;
 }
 
-.hero .btn-brand {
-  
-  background-color: #c77dff;
-  border: none;
-  padding: 0.75rem 1.5rem;
-  font-size: 1.1rem;
-}
 
 
 

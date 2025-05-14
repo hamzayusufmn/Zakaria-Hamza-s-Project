@@ -6,6 +6,8 @@
 
   <form action="{{ url_for('main.feedback') }}" method="POST">
     <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+    <!-- we were facing issues with our tokens not working when flipping through pages so we decided to use this 
+     input to include crsf token and use method posts so our frontend and backend features aligned -->
     
     {% if order_id %}
     <input type="hidden" name="order_id" value="{{ order_id }}">
@@ -70,11 +72,13 @@
         const rating = parseInt(this.value);
         if (rating > 0) {
           const colors = ['', '#ff4d4d', '#ff9966', '#ffdb4d', '#99cc33', '#4CAF50'];
+          // color scheme: red, orange, yellow, light green, green
           this.style.backgroundColor = colors[rating];
           this.style.color = rating > 3 ? '#fff' : '#000';
         } else {
           this.style.backgroundColor = '';
           this.style.color = '';
+      
         }
       });
       

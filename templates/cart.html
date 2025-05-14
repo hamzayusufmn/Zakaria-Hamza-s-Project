@@ -16,6 +16,7 @@
               action="{{ url_for('main.remove_from_cart', menu_item_id=entry.item.id) }}"
               class="ms-3"
             >
+        
               <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
               <button type="submit" class="btn btn-outline-danger btn-sm">
                 Remove
@@ -48,3 +49,6 @@
     </p>
   {% endif %}
 {% endblock %}
+
+<!-- we used a post method that uses our backend features to use when a user removes the item from cart there will be a reload and then a button that 
+ will redirect to our menu. -->

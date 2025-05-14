@@ -20,3 +20,4 @@ class Feedback(db.Model):
     
     def __repr__(self):
         return f'<Feedback from {self.name} on {self.submitted_at.strftime("%Y-%m-%d")}>'
+    # return feedback and shows user time in year-month-day format
