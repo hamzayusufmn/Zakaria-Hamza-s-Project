@@ -3,11 +3,12 @@
 # Author: Zakaria
 # Created: April 2025
 
-from flask import Blueprint, render_template, request
+from flask import Blueprint, render_template, request, session, redirect, url_for, flash
 from models.hours import Hours
-from flask import session, render_template, redirect, url_for, flash, request
 from models.menu import MenuItem, Category
-
+from models.feedback import Feedback  # Import the Feedback model
+from extensions import db  # Import db
+from datetime import datetime  # Import datetime
 
 # Create blueprint
 main_bp = Blueprint('main', __name__)
@@ -38,11 +39,46 @@ def gallery():
 @main_bp.route('/feedback', methods=['GET', 'POST'])
 def feedback():
     if request.method == 'POST':
-        # Handle form submission later
-        pass
-    return render_template('feedback.html')
-    # added this so feedback.html can be rendered
-    # without any issues flask coudlnt find it.
+        try:
+            # Get all the form data
+            name = request.form['name']
+            email = request.form['email']
+            phone = request.form.get('phone', '')  # Optional
+            rating = int(request.form['rating'])
+            visited_on = datetime.strptime(request.form['visited_on'], '%Y-%m-%d').date()
+            message = request.form['message']
+
+            # Create new feedback entry
+            new_feedback = Feedback(
+                name=name,
+                email=email,
+                phone=phone,
+                rating=rating,
+                visited_on=visited_on,
+                message=message
+            )
+            
+            # Save to database
+            db.session.add(new_feedback)
+            db.session.commit()
+            
+            # Redirect to confirmation page
+            return redirect(url_for('main.feedback_confirmation'))
+            
+        except Exception as e:
+            # If there's an error, roll back the database session and show error
+            db.session.rollback()
+            flash(f'An error occurred: {str(e)}', 'danger')
+            return redirect(url_for('main.feedback'))
+
+    # For GET requests, just render the form
+    # You can get the order_id from query parameters if needed
+    order_id = request.args.get('order_id')
+    return render_template('feedback.html', order_id=order_id)
+
+@main_bp.route('/feedback/confirmation')
+def feedback_confirmation():
+    return render_template('feedback_confirmation.html')
 
 @main_bp.route('/cart')
 def view_cart():
@@ -73,7 +109,7 @@ def remove_from_cart(menu_item_id):
     flash('Removed from cart.', 'info')
     return redirect(request.referrer or url_for('main.view_cart'))
 
-@main_bp.route('/cart/clear', methods=['POST']) # hy- this wasnt working when i was testing remove all from cart. forgot to add this, mustve been triggered by a get request.
+@main_bp.route('/cart/clear', methods=['POST'])
 def clear_cart():
     session.pop('cart', None)
     flash('Cart cleared.', 'warning')
